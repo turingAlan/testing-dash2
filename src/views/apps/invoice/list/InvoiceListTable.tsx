@@ -1,6 +1,8 @@
 'use client'
 
 // React Imports
+import { start } from 'repl'
+
 import { useState, useEffect, useMemo, forwardRef, useCallback } from 'react'
 
 // Next Imports
@@ -40,6 +42,10 @@ import type { RankingInfo } from '@tanstack/match-sorter-utils'
 
 import { Button, CardHeader } from '@mui/material'
 
+import { toast } from 'react-toastify'
+
+import dayjs from 'dayjs'
+
 import { formatDateIso } from '@/utils/string'
 
 import type { OrdersResponse, OrderStatus, OrderType } from '@/types/apps/orderTypes'
@@ -59,10 +65,8 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import type { Locale } from '@/configs/i18n'
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 import IdTrimString from '@/components/IdTrimString'
-import { toast } from 'react-toastify'
-import dayjs from 'dayjs'
+
 import useExportOrderData from '@/@core/hooks/query/useExportOrderData'
-import { start } from 'repl'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -156,6 +160,7 @@ const InvoiceListTable = ({ invoiceData, isLoading }: { invoiceData: OrdersRespo
   const orderStatusFilter = searchParams.get('order_status') || ''
   const searchValueFilter = searchParams.get('search') || ''
   const pageIndex = searchParams.get('page') || 1
+
   // Phone number filter for redirection from customer page
   const phone = searchParams.get('phone') || ''
 
@@ -342,6 +347,7 @@ const InvoiceListTable = ({ invoiceData, isLoading }: { invoiceData: OrdersRespo
     if (date > dateData.endDate) {
       toast.error('Start date should be less than end date')
     }
+
     setDateData({ ...dateData, startDate: new Date(date) })
   }
 
@@ -349,6 +355,7 @@ const InvoiceListTable = ({ invoiceData, isLoading }: { invoiceData: OrdersRespo
     if (date < dateData.startDate) {
       toast.error('End date should be greater than start date')
     }
+
     setDateData({ ...dateData, endDate: new Date(date) })
   }
 
@@ -356,6 +363,7 @@ const InvoiceListTable = ({ invoiceData, isLoading }: { invoiceData: OrdersRespo
   const handleExportOrderData = () => {
     getExportOrders()
   }
+
   const handleSearchParamsChange = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString())

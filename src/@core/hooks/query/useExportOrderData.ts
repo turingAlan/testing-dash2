@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 
+import dayjs from 'dayjs'
+
+import { toast } from 'react-toastify'
+
+import { json2csv } from 'json-2-csv'
+
 import { queryKey } from '@/@core/querykey'
 import axiosInstance from '@/@core/api/interceptor'
 import { useEssentialDataStore } from '@/@core/stores'
 import { exportOrderToCsv } from '@/@core/utils/orderHelper'
-import dayjs from 'dayjs'
-import { toast } from 'react-toastify'
-import { json2csv } from 'json-2-csv'
 
 // Custom hook for exportOrderData query
 const useExportOrderData = ({ startDate, endDate }: { startDate: Date | string; endDate: Date | string }) => {
@@ -18,9 +21,11 @@ const useExportOrderData = ({ startDate, endDate }: { startDate: Date | string; 
     const startDateObject = dayjs(startDate)
     const endDateObject = dayjs(endDate)
     const differenceInDays = endDateObject.diff(startDateObject, 'day')
+
     if (differenceInDays > 45) {
       toast.error("Can't export data for more than 45 days")
-      return
+      
+return
     }
 
     if (!startDate || !endDate) {
@@ -33,9 +38,11 @@ const useExportOrderData = ({ startDate, endDate }: { startDate: Date | string; 
 
     if (response.data && response.status === 200) {
       const fileName = `orders-${startDate}-${endDate}`
+
       const csvData = json2csv(response.data, {
         expandArrayObjects: true
       })
+
       exportOrderToCsv(csvData, fileName)
     }
 

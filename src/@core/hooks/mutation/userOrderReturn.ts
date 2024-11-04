@@ -39,6 +39,7 @@ const useOrderReturn = (orderId: string) => {
     queryClient.invalidateQueries({
       queryKey: [queryKey.getOrderDetails, orderId]
     })
+
     // Invalidate the orders query
     queryClient.invalidateQueries({
       queryKey: [queryKey.getOrders, currentShopData.id]

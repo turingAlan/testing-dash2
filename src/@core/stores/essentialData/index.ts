@@ -38,7 +38,8 @@ const useEssentialDataStore = create<EssentialDataStore>()(
           const categories = Object.entries(data)
             .map(([key, value]) => {
               if (value?.is_active) return key
-              return ''
+              
+return ''
             })
             .filter(value => value !== '') ?? ['']
 

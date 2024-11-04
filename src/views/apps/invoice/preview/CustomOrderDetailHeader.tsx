@@ -88,6 +88,8 @@ const CustomOrderDetailHeader = ({ orderData, generateInvoice }: OrderDetailHead
     })
 
     totalOrderItems.push(...fulfillmentOrders)
+
+
     // for rto push the items to totalOrderItems
     if (fulfillmentItem.is_rto) {
       totalOrderItems.push(...fulfillmentRto)
